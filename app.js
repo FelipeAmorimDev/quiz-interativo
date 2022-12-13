@@ -2,40 +2,55 @@ const quizForm = document.querySelector('.quiz-form');
 const correctAnswers = ['C', 'A', 'C', 'C'];
 const result = document.querySelector('.result');
 
-quizForm.addEventListener('submit', event => {
-  event.preventDefault();
+let score = 0;
 
-  let score = 0;
-  const userAnswers = [
-    quizForm.inputQuestion1.value,
-    quizForm.inputQuestion2.value,
-    quizForm.inputQuestion3.value,
-    quizForm.inputQuestion4.value,
-  ];
+const getUserAnswers = () => {
+  let userAnswers = []
 
-  userAnswers.forEach((answer, i) => {
-    if (answer === correctAnswers[i]) {
+  correctAnswers.forEach((_, i) => {
+    userAnswers.push(quizForm[`inputQuestion${i + 1}`].value)
+  })
+
+  return userAnswers
+}
+
+const setFinalScore = userAnswers => {
+  const isACorrectAnswer = userAnswer === correctAnswers[i];
+  
+  userAnswers.forEach((userAnswer, i) => {
+    if (isACorrectAnswer) {
       score += 25;
     }
   });
+}
 
+const showFinalScore = () => {
   scrollTo({
     top: 0,
     left: 0,
     behavior: "smooth"
   });
-
-  const resultContainer = result.querySelector('span');
   result.classList.remove('d-none');
+}
 
+const animateFinalScore = () => {
   let counter = 0;
+
   const timer = setInterval(() => {
     if (counter === score) {
       clearInterval(timer);
     }
-    
-    resultContainer.textContent = `${counter}%`;
+
+    result.querySelector('span').textContent = `${counter}%`;
     counter++
   }, 20);
+}
 
+quizForm.addEventListener('submit', event => {
+  event.preventDefault();
+
+  const userAnswers = getUserAnswers();
+  setFinalScore(userAnswers)
+  showFinalScore()
+  animateFinalScore()
 });
