@@ -15,9 +15,9 @@ const getUserAnswers = () => {
 }
 
 const setFinalScore = userAnswers => {
-  const isACorrectAnswer = userAnswer === correctAnswers[i];
-  
-  userAnswers.forEach((userAnswer, i) => {
+    userAnswers.forEach((userAnswer, i) => {
+    const isACorrectAnswer = userAnswer === correctAnswers[i];
+
     if (isACorrectAnswer) {
       score += 25;
     }
@@ -38,6 +38,7 @@ const animateFinalScore = () => {
 
   const timer = setInterval(() => {
     if (counter === score) {
+      score = 0;
       clearInterval(timer);
     }
 
